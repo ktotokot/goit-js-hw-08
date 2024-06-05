@@ -74,16 +74,28 @@ const markup = images
   </li>`)
   .join("");
 
-  gallery.insertAdjacentHTML("beforeEnd", markup);
+gallery.insertAdjacentHTML("beforeEnd", markup);
+
+
 
 const onClickPreview = (event) => {
   event.preventDefault();
 const target = event.target;
 if (target.tagName === 'IMG')
   {const largeImageURL = target.dataset.source;
-    console.log('Large image URL:', largeImageURL)};
+    // console.log('Large image URL:', largeImageURL)};
+    const instance = basicLightbox.create(`
+    <img src="${largeImageURL}" width="1112" height="640">`);
+instance.show();
+
+const onKeydown = (event) => {
+  if (event.key === 'Escape') {
+    instance.close();
+    document.removeEventListener('keydown', onKeydown);
+  }
 };
 
-  gallery.addEventListener('click', onClickPreview);
+document.addEventListener('keydown', onKeydown);
+}};
 
-  
+  gallery.addEventListener('click', onClickPreview);
